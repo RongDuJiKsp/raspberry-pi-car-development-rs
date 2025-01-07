@@ -72,4 +72,14 @@ impl PwmDriver {
             .digital_write(bool_vol(irevb(as_bool(turn) && revr, pin1)));
         thread::sleep(dura);
     }
+    pub fn stop(&self) {
+        self.drive(
+            PowMode::Stop,
+            PowDirc::Line,
+            PowTrunMode::Rev,
+            0,
+            Duration::ZERO,
+            POW_TUN_COMBO_NONE,
+        );
+    }
 }
