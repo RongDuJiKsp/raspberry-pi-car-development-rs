@@ -1,6 +1,8 @@
 use super::{
     lib_alias::{OutputPin, PwmPin, WiringPiHand},
-    lib_pins::pins_wiringpi,
+    lib_pins::pins_wiringpi::{
+        POW_IN1_L_PIN, POW_IN1_R_PIN, POW_IN2_L_PIN, POW_IN2_R_PIN, POW_PWM_L_PIN, POW_PWM_R_PIN,
+    },
     lib_utils::{as_bool, bitvis, bool_vol, icombo, irevb},
 };
 use std::thread;
@@ -35,12 +37,12 @@ pub struct PwmDriver {
 impl PwmDriver {
     pub fn new(pi: &WiringPiHand) -> PwmDriver {
         PwmDriver {
-            pwm_l: pi.soft_pwm_pin(pins_wiringpi::POW_PWM_L_PIN),
-            in2_l: pi.output_pin(pins_wiringpi::POW_IN2_L_PIN),
-            in1_l: pi.output_pin(pins_wiringpi::POW_IN1_L_PIN),
-            pwm_r: pi.soft_pwm_pin(pins_wiringpi::POW_PWM_R_PIN),
-            in2_r: pi.output_pin(pins_wiringpi::POW_IN2_R_PIN),
-            in1_r: pi.output_pin(pins_wiringpi::POW_IN1_R_PIN),
+            pwm_l: pi.soft_pwm_pin(POW_PWM_L_PIN),
+            in2_l: pi.output_pin(POW_IN2_L_PIN),
+            in1_l: pi.output_pin(POW_IN1_L_PIN),
+            pwm_r: pi.soft_pwm_pin(POW_PWM_R_PIN),
+            in2_r: pi.output_pin(POW_IN2_R_PIN),
+            in1_r: pi.output_pin(POW_IN1_R_PIN),
         }
     }
     pub fn drive(

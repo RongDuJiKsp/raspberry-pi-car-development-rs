@@ -17,6 +17,12 @@ pub fn as_vol<T: Zero>(x: T) -> pin::Value {
         pin::Value::High
     }
 }
+pub fn from_vol<T: Zero + One>(x: pin::Value) -> T {
+    match x {
+        pin::Value::Low => T::zero(),
+        pin::Value::High => T::one(),
+    }
+}
 pub fn bool_vol<T: Into<bool>>(x: T) -> pin::Value {
     if x.into() {
         pin::Value::High
