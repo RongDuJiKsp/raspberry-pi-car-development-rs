@@ -18,7 +18,7 @@ pub fn go(addr: &str) -> Result<(), String> {
             mode: PowMode::Drive,
             dirc: PowDirc::Line,
             trun: PowTrunMode::Rev,
-            speed: 30,
+            speed: 50,
             combo: 0.0,
         })
         .map_err(ErrMap::string)?;
