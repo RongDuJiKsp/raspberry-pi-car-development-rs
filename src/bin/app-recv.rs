@@ -53,11 +53,12 @@ fn message_recv(sender: mpsc::Sender<MsgBody>, conn: TcpStream, addr: SocketAddr
         buffer
             .read_exact(&mut body_prefix)
             .expect("Read With Error");
-        let len = (body_prefix[0] as u16) << 8 + (body_prefix[1] as u16);
+        let len = ((body_prefix[0] as u16) << 8) + (body_prefix[1] as u16);
         buffer
-            .read_exact(&mut buf_json[..len as usize])
+            .read_exact(&mut buf_json[0..len as usize])
             .expect("Read With Error");
-        let json = serde_json::from_slice::<MsgBody>(&buf_json[..len as usize])
+        lib_log::log(&format!("Recv Json(len:{}) :{}",len,String::from_utf8(buf_json[0..len as usize].to_vec()).expect("Err on parse")));
+        let json = serde_json::from_slice::<MsgBody>(&buf_json[0..len as usize])
             .expect("Json Read Failed,Conn Close");
         sender.send(json).expect("Channel Failed");
     }
