@@ -1,3 +1,3 @@
 #![allow(dead_code)]
-mod externc;
-mod mlib;
+pub mod externc;
+pub mod mlib;
