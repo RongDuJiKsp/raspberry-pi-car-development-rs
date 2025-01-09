@@ -7,7 +7,7 @@ use crate::{
 };
 use serde::Serialize;
 use std::net::SocketAddr;
-fn write_json<T: Serialize>(addr: &str, x: T) -> Result<(), String> {
+fn write_json<T: Serialize>(addr: &str, x: &T) -> Result<(), String> {
     ClientInstance::instance(addr.parse::<SocketAddr>().map_err(ErrMap::string)?)
         .map_err(ErrMap::string)?
         .lock()
