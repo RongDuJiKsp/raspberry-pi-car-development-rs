@@ -26,7 +26,8 @@ export default function App() {
     const [addr, setAddr] = useState('');
     const [combo, setCombo] = useState(asCombo("-1"));
     const [speed, setSpeed] = useState(asSpeed("-1"));
-
+    const [comboFocus, setComboFocus] = useState(false)
+    const [speedFocus, setSpeedFocus] = useState(false)
     const run = (cmd: string): void => {
         exec(cmd, {addr, speed});
     }
@@ -92,7 +93,9 @@ export default function App() {
                             onClick={() => setCombo(r => asCombo(String(r - comboDelta)))}>
                         -
                     </button>
-                    <input className={"speed-input"} placeholder={"转向速度差"} type={"number"} value={combo.toFixed(1)}
+                    <input className={"speed-input"} placeholder={"转向速度差"} type={"number"}
+                           value={comboFocus ? undefined : combo.toFixed(1)}
+                           onFocus={() => setComboFocus(true)} onBlur={() => setComboFocus(false)}
                            onChange={(e) => setCombo(asCombo(e.target.value))}/>
                     <button className="speed-btn"
                             onClick={() => setCombo(r => asCombo(String(r + comboDelta)))}>
@@ -104,7 +107,9 @@ export default function App() {
                             onClick={() => setSpeed(r => asSpeed(String(r - speedDelta)))}>
                         -
                     </button>
-                    <input className={"speed-input"} placeholder={"速度"} type={"number"} value={speed.toFixed(0)}
+                    <input className={"speed-input"} placeholder={"速度"} type={"number"}
+                           value={speedFocus ? undefined : speed.toFixed(0)}
+                           onFocus={() => setSpeedFocus(true)} onBlur={() => setSpeedFocus(false)}
                            onChange={(e) => setSpeed(asSpeed(e.target.value))}/>
                     <button className="speed-btn"
                             onClick={() => setSpeed(r => asSpeed(String(r + speedDelta)))}>
