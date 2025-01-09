@@ -48,10 +48,10 @@ pub fn left(addr: &str, speed: i32) -> Result<(), String> {
     write_json(
         addr,
         &MsgBody {
-            mode: PowMode::Stop,
-            dirc: PowDirc::Line,
+            mode: PowMode::Drive,
+            dirc: PowDirc::Left,
             trun: PowTrunMode::Rev,
-            speed: 0,
+            speed,
             combo: 0.0,
         },
     )
@@ -61,10 +61,10 @@ pub fn right(addr: &str, speed: i32) -> Result<(), String> {
     write_json(
         addr,
         &MsgBody {
-            mode: PowMode::Stop,
-            dirc: PowDirc::Line,
+            mode: PowMode::Drive,
+            dirc: PowDirc::Right,
             trun: PowTrunMode::Rev,
-            speed: 0,
+            speed,
             combo: 0.0,
         },
     )
@@ -74,10 +74,10 @@ pub fn back(addr: &str, speed: i32) -> Result<(), String> {
     write_json(
         addr,
         &MsgBody {
-            mode: PowMode::Stop,
+            mode: PowMode::Rev,
             dirc: PowDirc::Line,
             trun: PowTrunMode::Rev,
-            speed: 0,
+            speed,
             combo: 0.0,
         },
     )
