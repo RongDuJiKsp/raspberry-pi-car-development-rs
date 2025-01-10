@@ -1,4 +1,5 @@
 use std::env;
+use std::process::exit;
 use std::sync::Arc;
 use std::time::Duration;
 
@@ -156,7 +157,11 @@ fn main() {
     let pwm = Arc::new(PwmDriver::new(&pi));
     {
         let pwm_hd = pwm.clone();
-        ctrlc::set_handler(move || pwm_hd.stop()).expect("E");
+        ctrlc::set_handler(move || {
+            pwm_hd.stop();
+            exit(0);
+        })
+        .expect("E");
     }
     let mut ctx = CpuContext::new(pwm);
     let tcr = TcrSense::new(&pi);
