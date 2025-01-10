@@ -17,13 +17,13 @@ use wiringpi::setup;
 const P_DELAY: u64 = 8;
 const P_TRANSDELAY: u64 = 5;
 const P_TRYDELAY: u64 = 3;
-const P_TRYTRANSPEED: i32 = 30;
-const P_TRYSPEED: i32 = 25;
-const P_FASTSPEED: i32 = 34;
-const P_UNHEAD_TICK: i32 = 7;
-const P_TRANS_TICK: i32 = 7;
-const P_LINE_TICK: i32 = 16;
-const P_NEED_TRANS_TICK: i32 = 7;
+const P_TRYTRANSPEED: i32 = 34;
+const P_TRYSPEED: i32 = 36;
+const P_FASTSPEED: i32 = 42;
+const P_UNHEAD_TICK: i32 = 6;
+const P_TRANS_TICK: i32 = 6;
+const P_LINE_TICK: i32 = 12;
+const P_NEED_TRANS_TICK: i32 = 6;
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum Sports {
     Left,
