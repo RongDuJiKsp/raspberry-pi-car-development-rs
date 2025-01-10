@@ -21,8 +21,8 @@ impl TcrSense {
         }
     }
     pub fn read(&self) -> Status {
-        from_vol::<Status>(self.tcr_l.digital_read()) << 2
-            | from_vol::<Status>(self.tcr_mid.digital_read()) << 1
+        (from_vol::<Status>(self.tcr_l.digital_read()) << 2)
+            | (from_vol::<Status>(self.tcr_mid.digital_read()) << 1)
             | from_vol::<Status>(self.tcr_r.digital_read())
     }
 }

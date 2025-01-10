@@ -105,7 +105,7 @@ impl CpuContext {
             deb!(self.deb_unhead, P_UNHEAD_TICK, {
                 self.sport = self.turning
             });
-            self.sport.exec(&self.pwm);
+            self.turning.exec(&self.pwm);
         } else if Sports::should_ctx(stat) == Sports::Left && self.sport == Sports::Line {
             deb!(self.deb_left, P_TRANS_TICK, {
                 self.turning = Sports::Left;
@@ -118,7 +118,7 @@ impl CpuContext {
                 });
             });
             self.sport.exec(&self.pwm);
-        } else if Sports::should_ctx(stat) == Sports::Left && self.sport == Sports::Line {
+        } else if Sports::should_ctx(stat) == Sports::Right && self.sport == Sports::Line {
             deb!(self.deb_right, P_TRANS_TICK, {
                 self.turning = Sports::Right;
                 if stat == (MID_BIT | RIGHT_BIT) {
@@ -147,7 +147,6 @@ impl CpuContext {
             self.sport.exec(&self.pwm);
         } else {
             self.sport.exec(&self.pwm);
-            self.clean_deb();
         }
     }
 }
