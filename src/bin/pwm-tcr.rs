@@ -20,7 +20,7 @@ const P_TRYDELAY: u64 = 3;
 const P_TRYTRANSPEED: i32 = 30;
 const P_TRYSPEED: i32 = 25;
 const P_FASTSPEED: i32 = 34;
-const P_UNHEAD_TICK: i32 = 25;
+const P_UNHEAD_TICK: i32 = 7;
 const P_TRANS_TICK: i32 = 7;
 const P_LINE_TICK: i32 = 16;
 const P_NEED_TRANS_TICK: i32 = 7;
@@ -105,7 +105,7 @@ impl CpuContext {
             deb!(self.deb_unhead, P_UNHEAD_TICK, {
                 self.sport = self.turning
             });
-            self.turning.exec(&self.pwm);
+            self.sport.exec(&self.pwm);
         } else if Sports::should_ctx(stat) == Sports::Left && self.sport == Sports::Line {
             deb!(self.deb_left, P_TRANS_TICK, {
                 self.turning = Sports::Left;
@@ -147,6 +147,7 @@ impl CpuContext {
             self.sport.exec(&self.pwm);
         } else {
             self.sport.exec(&self.pwm);
+            self.clean_deb();
         }
     }
 }
