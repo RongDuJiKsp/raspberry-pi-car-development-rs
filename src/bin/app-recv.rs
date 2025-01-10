@@ -3,10 +3,7 @@ use std::{
     io::{BufReader, Read},
     net::{SocketAddr, TcpListener, TcpStream},
     process::exit,
-    sync::{
-        atomic::{AtomicBool, Ordering},
-        mpsc, Arc,
-    },
+    sync::{mpsc, Arc},
     thread,
     time::Duration,
 };
