@@ -13,17 +13,30 @@ use raspberry_pi_car_development_rs::mlib::{
     lib_utils::as_bool,
 };
 use wiringpi::setup;
-
+//这一段是小车运行的参数，这个参数相对保守（60秒跑完轨道），卷皮可以适当调整
+//读取状态的tick，单位为毫秒，越小越灵敏
+//在一般运行状态读取状态的tick
 const P_DELAY: u64 = 8;
+//在转弯状态读取状态的tick
 const P_TRANSDELAY: u64 = 5;
+//在纠正状态读取状态的tick
 const P_TRYDELAY: u64 = 3;
-const P_TRYTRANSPEED: i32 = 34;
-const P_TRYSPEED: i32 = 36;
+//这一段是在各个状态的运行速度，越大越快
+//在一般运行状态的速度
 const P_FASTSPEED: i32 = 42;
-const P_UNHEAD_TICK: i32 = 6;
-const P_TRANS_TICK: i32 = 6;
-const P_LINE_TICK: i32 = 12;
+//在转弯状态的速度
+const P_TRYTRANSPEED: i32 = 34;
+//在纠正状态的速度
+const P_TRYSPEED: i32 = 36;
+//这一段是防抖参数，越小越灵敏
+//在读取不到任何信息尝试偏转纠正的tick数
 const P_NEED_TRANS_TICK: i32 = 6;
+//在读取不到任何信息尝试转弯的tick数
+const P_UNHEAD_TICK: i32 = 6;
+//认为是转弯的tick数
+const P_TRANS_TICK: i32 = 6;
+//认为是直道的tick数
+const P_LINE_TICK: i32 = 12;
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum Sports {
     Left,
