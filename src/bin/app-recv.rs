@@ -2,7 +2,11 @@ use std::{
     env,
     io::{BufReader, Read},
     net::{SocketAddr, TcpListener, TcpStream},
-    sync::mpsc,
+    process::exit,
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        mpsc, Arc,
+    },
     thread,
     time::Duration,
 };
@@ -23,7 +27,7 @@ struct MsgBody {
 }
 struct RecvPower {
     cmd: mpsc::Receiver<MsgBody>,
-    power: PwmDriver,
+    power: Arc<PwmDriver>,
 }
 fn operator_loop(power: RecvPower) {
     loop {
@@ -69,7 +73,15 @@ fn message_recv(sender: mpsc::Sender<MsgBody>, conn: TcpStream, addr: SocketAddr
 }
 fn main() {
     let pi = wiringpi::setup();
-    let power = PwmDriver::new(&pi);
+    let power = Arc::new(PwmDriver::new(&pi));
+    {
+        let power_stop = power.clone();
+        ctrlc::set_handler(move || {
+            power_stop.stop();
+            exit(0);
+        })
+        .expect("Error setting Ctrl-C handler");
+    }
     let (tx, rx) = mpsc::channel();
     let recv_pow = RecvPower { cmd: rx, power };
     thread::spawn(move || operator_loop(recv_pow));
@@ -80,6 +92,7 @@ fn main() {
             .unwrap_or_else(|| String::from("0.0.0.0:37037")),
     )
     .expect("在初始化时失败");
+
     loop {
         if let Ok((conn, addr)) = conn.accept() {
             let s = tx.clone();
