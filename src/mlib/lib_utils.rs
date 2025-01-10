@@ -1,4 +1,4 @@
-use std::ops::Mul;
+use std::ops::{AddAssign, Mul};
 
 use num::{One, Zero};
 use wiringpi::pin;
@@ -57,4 +57,27 @@ pub fn icombo<C: Into<bool>, L, R: From<L> + Mul<R, Output = R>>(cond: C, num: L
     } else {
         R::from(num)
     }
+}
+pub fn debounce<T: Zero + One + Clone + Copy + Ord + AddAssign, B: FnMut()>(
+    cond: &mut T,
+    lim: T,
+    mut exec: B,
+) {
+    if *cond < lim {
+        cond.add_assign(T::one());
+    } else {
+        *cond = T::zero();
+        exec();
+    }
+}
+#[macro_export]
+macro_rules! deb {
+    ($cond:expr, $lim:expr, $exec:block) => {
+        if $cond < $lim {
+            $cond += 1;
+        } else {
+            $cond = 0;
+            $exec
+        }
+    };
 }
